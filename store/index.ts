@@ -26,10 +26,10 @@ const persistConfig = {
 const middleware = [];
 const sagaMiddleware = createSagaMiddleware();
 const handleAuthTokenMiddleware = () => (next: any) => (action: any) => {
-  if (action.type === actionTypes.LOGIN_SUCCESS) {
-    const token = action.response?.result.accessToken;
-    serviceHandle.setToken(token);
-  }
+  // if (action.type === actionTypes.LOGIN_SUCCESS) {
+  //   const token = action.response?.result.accessToken;
+  //   serviceHandle.setToken(token);
+  // }
   next(action);
 };
 middleware.push(sagaMiddleware, handleAuthTokenMiddleware);

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "212624006557",
+    "project_id": "cchat-19d07",
+    "storage_bucket": "cchat-19d07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212624006557:android:ee47114a4f794fb9d82374",
+        "android_client_info": {
+          "package_name": "com.cchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212624006557-92nljnju1siphv0bt31i6132ko4cm4gn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cchat",
+            "certificate_hash": "6b2598c0af4aa9e10338c4c81a2ecf5693cb996b"
+          }
+        },
+        {
+          "client_id": "212624006557-6kvdva7g59c9mm6vc6mck477nands4b8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYSYNJCrAMq6xFB6saN3jFMqDto5zGQMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212624006557-6kvdva7g59c9mm6vc6mck477nands4b8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "212624006557-32maj3grqg9pbbhq0vvqtb2srsksduja.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.CChat",
+                "app_store_id": "15022852"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
