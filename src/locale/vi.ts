@@ -1,0 +1,36 @@
+export default {
+  password: 'Mật khẩu',
+  showPassword: 'Hiển thị mật khẩu',
+  phone: 'Di động',
+  fullName: 'Tên đầy đủ',
+  email: 'Email',
+  ok: 'OK',
+  cancel: 'Huỷ',
+  askMeLater: 'Nhắc tôi sau',
+  content: 'Nội dung',
+  title: 'Tiêu đề',
+  notification: 'Thông báo',
+  notificationLogin: 'Vui lòng điền thông tin của bé',
+  login: {
+    phone: 'Số điện thoại',
+    submit: 'Gửi',
+    enterPass: 'Nhập mã',
+    enter: 'Nhập',
+  },
+  alert: {
+    alert: 'Thông báo',
+    signUp: 'Đăng ký thành công!',
+    loginFailed: 'Đăng nhập thất bại',
+    confirmChange: 'Xác nhận thay đổi ?',
+    wrongCode: 'Mã OTP không đúng',
+    messageOTP:
+      'Mã kích hoạt đang được gửi đến số điện thoại của bạn. Vui lòng chờ trong giây lát',
+    invalidPhoneNumber: 'Số điện thoại không hợp lệ',
+  },
+  validation: {
+    invalid: 'Không hợp lệ',
+    required: 'Yêu cầu bắt buộc',
+    min: 'Tối thiểu 8 ký tự',
+    number: 'Trường này yêu cầu là chữ số',
+  },
+};

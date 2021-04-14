@@ -19,11 +19,9 @@ export const loginFailed = (error: any) => {
   };
 };
 
-export const loginSuccess = (response: any, keepLogin: boolean, body: any) => {
+export const loginSuccess = (response: any) => {
   return {
     type: actionTypes.LOGIN_SUCCESS,
     response,
-    keepLogin,
-    body,
   };
 };
