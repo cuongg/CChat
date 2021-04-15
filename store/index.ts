@@ -52,7 +52,7 @@ const persistor = persistStore(store, config, () => {
     !_.isEmpty(stateData.userReducer) &&
     !_.isEmpty(stateData.userReducer.data)
   ) {
-    serviceHandle.setToken(stateData.userReducer.data.result.accessToken);
+    // serviceHandle.setToken(stateData.userReducer.data.result.accessToken);
   }
 });
 sagaMiddleware.run(sagas);

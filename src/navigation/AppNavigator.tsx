@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import MyScreen from 'screen/MyScreen';
+import ChatScreen from 'screen/ChatScreen';
 
 // const Tab = createBottomTabNavigator();
 
@@ -37,6 +38,7 @@ const Stack = createStackNavigator();
 const AppNavigator = () => {
   return (
     <Stack.Navigator headerMode="none">
+      <Stack.Screen name={'ChatScreen'} component={ChatScreen} />
       <Stack.Screen name={'MyScreen'} component={MyScreen} />
     </Stack.Navigator>
   );
