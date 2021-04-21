@@ -1,8 +1,7 @@
 import {StyleSheet} from 'react-native';
 import color from 'helpers/color';
-import fontSize from 'helpers/fontSize';
 import padding from 'helpers/padding';
-import {DEVICE} from 'helpers/dimentions';
+import {DEVICE} from 'helpers/dimension';
 export default StyleSheet.create({
   background: {
     flex: 1,

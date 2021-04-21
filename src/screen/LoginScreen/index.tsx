@@ -35,10 +35,8 @@ const LoginScreen = () => {
       const confirmation = await auth().signInWithPhoneNumber(
         convertPhoneNumber(),
       );
-      console.log('signInWithPhoneNumber -> confirmation', confirmation);
       navigation.navigate('PasswordScreen', {confirmation});
     } catch (error) {
-      console.log('signInWithPhoneNumber -> error', {error});
       let message = error.userInfo.message;
       if (
         message.includes('incorrect') ||

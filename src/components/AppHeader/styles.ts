@@ -1,23 +1,26 @@
 import {StyleSheet} from 'react-native';
 import color from 'helpers/color';
+import {DIMENSION} from 'helpers/dimension';
 import fontSize from 'helpers/fontSize';
-import padding from 'helpers/padding';
+
 export default StyleSheet.create({
-  btnStyle: {
+  container: {
     flexDirection: 'row',
     backgroundColor: color.primary,
-    padding: padding.p8,
-    paddingHorizontal: padding.p16,
+    height: DIMENSION.HEADER_HEIGHT,
+  },
+  viewOutside: {
+    flex: 0.2,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: padding.p24,
-    marginVertical: padding.p4,
   },
-  text: {
+  viewMid: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  txt: {
     fontSize: fontSize.f20,
     color: color.white,
-  },
-  viewIcon: {
-    width: '10%',
   },
 });

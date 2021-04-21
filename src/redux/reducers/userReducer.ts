@@ -24,6 +24,10 @@ export default (state = initialState, action: any) => {
         ...state,
         errorMessage: '',
       };
+    case actionTypes.LOGOUT:
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

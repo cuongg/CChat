@@ -1,14 +1,13 @@
+import {useRoute} from '@react-navigation/native';
 import {ICON, IMG} from 'assets';
 import AppButton from 'components/AppButton';
 import AppInput from 'components/AppInput';
-import React, {useEffect, useState} from 'react';
-import {ImageBackground, StyleSheet, View, Alert, Keyboard} from 'react-native';
-import I18n from 'locale';
 import color from 'helpers/color';
+import {DEVICE} from 'helpers/dimension';
 import padding from 'helpers/padding';
-import {DEVICE} from 'helpers/dimentions';
-import {useRoute} from '@react-navigation/native';
-import _ from 'lodash';
+import I18n from 'locale';
+import React, {useEffect, useState} from 'react';
+import {Alert, ImageBackground, Keyboard, StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 const PasswordScreen = () => {
@@ -27,11 +26,8 @@ const PasswordScreen = () => {
     try {
       dispatch({type: '_REQUEST'});
       const res = await confirmation.confirm(value);
-      console.log('confirmCode -> res', res);
     } catch (error) {
       dispatch({type: ''});
-      console.log('confirmCode -> error', error);
-      console.log('Invalid code.');
       setValue('');
       Alert.alert(I18n.t('alert.alert'), I18n.t('alert.wrongCode'));
     }

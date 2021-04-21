@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import MyScreen from 'screen/MyScreen';
-import ChatScreen from 'screen/ChatScreen';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {ChatScreen, SlideMenu} from 'screen';
 
 // const Tab = createBottomTabNavigator();
 
@@ -19,29 +19,31 @@ import ChatScreen from 'screen/ChatScreen';
 //   );
 // };
 
-// const Drawer = createDrawerNavigator();
-
-// const DrawerNavigation = () => {
-//   return (
-//     <Drawer.Navigator
-//       drawerContent={(props) => <SlideMenu {...props} />}
-//       drawerStyle={{width: width - 50}}>
-//       <Drawer.Screen name="TabNavigation" component={TabNavigation} />
-//       <Drawer.Screen name="Billing" component={BillingScreen} />
-//       <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-//     </Drawer.Navigator>
-//   );
-// };
-
 const Stack = createStackNavigator();
 
-const AppNavigator = () => {
+const StackNavigation = () => {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name={'ChatScreen'} component={ChatScreen} />
-      <Stack.Screen name={'MyScreen'} component={MyScreen} />
+      {/* <Stack.Screen name={'MyScreen'} component={MyScreen} /> */}
     </Stack.Navigator>
   );
+};
+
+const Drawer = createDrawerNavigator();
+
+const DrawerNavigation = () => {
+  return (
+    <Drawer.Navigator
+      drawerStyle={{width: '80%'}}
+      drawerContent={(props) => <SlideMenu {...props} />}>
+      <Drawer.Screen name="StackNavigation" component={StackNavigation} />
+    </Drawer.Navigator>
+  );
+};
+
+const AppNavigator = () => {
+  return <DrawerNavigation />;
 };
 
 export default AppNavigator;
