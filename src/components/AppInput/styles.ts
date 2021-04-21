@@ -8,7 +8,9 @@ export default StyleSheet.create({
     width: '100%',
     padding: padding.p12,
     backgroundColor: color.white,
-    borderRadius: 10,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    borderColor: color.primary,
   },
   image: {
     height: 40,
@@ -17,5 +19,6 @@ export default StyleSheet.create({
   txtInput: {
     height: 40,
     padding: padding.p8,
+    width: '80%',
   },
 });

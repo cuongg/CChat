@@ -25,3 +25,10 @@ export const loginSuccess = (response: any) => {
     response,
   };
 };
+
+// logout
+export const logOut = () => {
+  return {
+    type: actionTypes.LOGOUT,
+  };
+};
