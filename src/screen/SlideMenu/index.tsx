@@ -12,6 +12,7 @@ const SlideMenu = (props: any) => {
 
   const onSignOut = async () => {
     try {
+      dispatch({type: '_REQUEST'});
       await auth().signOut();
     } catch (error) {
       console.log('onSignOut -> error', error);
