@@ -1,14 +1,15 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigator from 'navigation/AppNavigator';
-import {Text, SafeAreaView, View, StyleSheet} from 'react-native';
+import {Text, SafeAreaView, View, StyleSheet, Platform} from 'react-native';
 import UnAuthNavigator from 'navigation/UnAuthNavigator';
 import {useSelector} from 'react-redux';
 import {RootState} from 'redux/reducers';
 import _ from 'lodash';
 import AppLoading from 'components/AppLoading';
 import color from 'helpers/color';
+import requestCameraAndAudioPermission from 'components/Permission';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +28,13 @@ const styles = StyleSheet.create({
 const MainApp = () => {
   const {data} = useSelector((state: RootState) => state.userReducer);
   const {isLoading} = useSelector((state: RootState) => state.loadingReducer);
+
+  //! UseEffect
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      requestCameraAndAudioPermission();
+    }
+  }, []);
 
   return (
     <>
