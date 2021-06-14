@@ -43,8 +43,8 @@ const PasswordScreen = () => {
       <View style={styles.container}>
         <View style={styles.viewInput}>
           <AppInput
-            icon={ICON.pass}
-            placeholder="123456"
+            // icon={ICON.pass}
+            placeholder={I18n.t('login.otp')}
             value={value}
             onChangeText={setValue}
             keyboardType="numeric"

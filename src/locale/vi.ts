@@ -16,6 +16,8 @@ export default {
     submit: 'Gửi',
     enterPass: 'Nhập mã',
     enter: 'Nhập',
+    displayName: 'Tên hiển thị',
+    otp: 'Mã OTP',
   },
   alert: {
     alert: 'Thông báo',
@@ -32,5 +34,10 @@ export default {
     required: 'Yêu cầu bắt buộc',
     min: 'Tối thiểu 8 ký tự',
     number: 'Trường này yêu cầu là chữ số',
+  },
+  chat: {
+    callSIM: 'Gọi điện thoại qua SIM',
+    audioCall: 'Gọi Audio',
+    videoCall: 'Gọi Video',
   },
 };

@@ -17,6 +17,7 @@ const LoginScreen = () => {
 
   //! State
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [name, setName] = useState('');
   const [error, setError] = useState('');
 
   //! Function
@@ -36,8 +37,8 @@ const LoginScreen = () => {
         convertPhoneNumber(),
       );
       navigation.navigate('PasswordScreen', {confirmation});
-    } catch (error) {
-      let message = error.userInfo.message;
+    } catch (err) {
+      let message = err.userInfo.message;
       if (
         message.includes('incorrect') ||
         message.includes('TOO_') ||
@@ -55,18 +56,22 @@ const LoginScreen = () => {
   useEffect(() => {
     auth().onAuthStateChanged((user: any) => {
       if (user) {
-        dispatch(userActions.loginSuccess(user));
+        dispatch(userActions.loginSuccess({...user._user, name}));
       }
     });
-  }, [dispatch]);
+  }, [dispatch, name]);
 
   useEffect(() => {
-    if (!isNaN(Number(phoneNumber)) && phoneNumber?.toString().length > 8) {
+    if (
+      !isNaN(Number(phoneNumber)) &&
+      phoneNumber?.toString().length > 8 &&
+      name
+    ) {
       setError('');
     } else {
       setError(I18n.t('validation.number') + '. ' + I18n.t('validation.min'));
     }
-  }, [phoneNumber]);
+  }, [phoneNumber, name]);
 
   //! Render
   return (
@@ -74,12 +79,21 @@ const LoginScreen = () => {
       <View style={styles.container}>
         <View style={styles.viewInput}>
           <AppInput
-            icon={ICON.phone}
-            placeholder="039xxxxxxx"
+            // icon={ICON.phone}
+            placeholder={I18n.t('login.phone')}
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             maxLength={12}
             keyboardType="numeric"
+          />
+        </View>
+        <View style={styles.viewInput}>
+          <AppInput
+            // icon={ICON.phone}
+            placeholder={I18n.t('login.displayName')}
+            value={name}
+            onChangeText={setName}
+            maxLength={50}
           />
         </View>
         <AppButton
