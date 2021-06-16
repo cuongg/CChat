@@ -4,10 +4,15 @@ import {HIT_SLOP} from 'helpers/constants';
 import {stringToColour} from 'helpers/function';
 import I18n from 'locale';
 import React from 'react';
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
+
+const Sound = require('react-native-sound');
+if (Platform.OS === 'ios') {
+  Sound.setCategory('Ambient');
+}
 
 class ReceiverScreen extends React.Component {
   caller: any;
@@ -15,6 +20,7 @@ class ReceiverScreen extends React.Component {
   isVideo: any;
   rejectListener: any;
   acceptListener: any;
+  sound: any;
 
   constructor(props: any) {
     super(props);
@@ -24,9 +30,21 @@ class ReceiverScreen extends React.Component {
     this.caller = props.route.params.caller;
     this.receiver = props.route.params.receiver;
     this.isVideo = props.route.params.isVideo;
+    this.sound = new Sound(
+      'incallmanager_ringtone.mp3',
+      Sound.MAIN_BUNDLE,
+      (error: any) => {
+        if (error) {
+          return;
+        }
+      },
+    );
   }
 
   componentDidMount() {
+    setTimeout(() => {
+      this.sound.play();
+    }, 200);
     const {navigation}: any = this.props;
     this.rejectListener = database()
       .ref(`/call/${this.receiver._id}`)
@@ -53,7 +71,8 @@ class ReceiverScreen extends React.Component {
   }
 
   componentWillUnmount() {
-    const {switchScreen} = this.state;
+    this.sound.stop();
+    const {switchScreen}: any = this.state;
     if (!switchScreen) {
       this.onPressEndCall();
     }

@@ -4,12 +4,17 @@ import {HIT_SLOP} from 'helpers/constants';
 import {stringToColour} from 'helpers/function';
 import I18n from 'locale';
 import React from 'react';
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import {RootState} from 'redux/reducers';
 import styles from './styles';
+
+const Sound = require('react-native-sound');
+if (Platform.OS === 'ios') {
+  Sound.setCategory('Ambient');
+}
 
 class DialingScreen extends React.Component {
   caller: any;
@@ -17,6 +22,8 @@ class DialingScreen extends React.Component {
   isVideo: any;
   rejectListener: any;
   acceptListener: any;
+  soundRing: any;
+  soundBusy: any;
 
   constructor(props: any) {
     super(props);
@@ -30,6 +37,24 @@ class DialingScreen extends React.Component {
     };
     this.receiver = props.route.params.user;
     this.isVideo = props.route.params.isVideo;
+    this.soundRing = new Sound(
+      'incallmanager_ringback.mp3',
+      Sound.MAIN_BUNDLE,
+      (error: any) => {
+        if (error) {
+          return;
+        }
+      },
+    );
+    this.soundBusy = new Sound(
+      'incallmanager_busytone.mp3',
+      Sound.MAIN_BUNDLE,
+      (error: any) => {
+        if (error) {
+          return;
+        }
+      },
+    );
   }
 
   componentDidMount() {
@@ -39,15 +64,17 @@ class DialingScreen extends React.Component {
       .once('value', (childSnapShot) => {
         const value = childSnapShot.toJSON();
         if (!value) {
+          this.soundRing.play();
           database().ref(`/call/${this.receiver._id}`).push({
             caller: this.caller,
             receiver: this.receiver,
             isVideo: this.isVideo,
           });
         } else {
+          this.soundBusy.play();
           setTimeout(() => {
             navigation.goBack();
-          }, 1000);
+          }, 5000);
         }
       });
 
@@ -77,7 +104,9 @@ class DialingScreen extends React.Component {
   }
 
   componentWillUnmount() {
-    const {switchScreen} = this.state;
+    this.soundRing.stop();
+    this.soundBusy.stop();
+    const {switchScreen}: any = this.state;
     if (!switchScreen) {
       this.onPressEndCall();
     }
