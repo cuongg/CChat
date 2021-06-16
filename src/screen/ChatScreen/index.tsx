@@ -1,24 +1,23 @@
 import database from '@react-native-firebase/database';
 import AppHeader from 'components/AppHeader';
-import {DIMENSION} from 'helpers/dimension';
+import AppText from 'components/AppText';
 import {stringToColour} from 'helpers/function';
 import _ from 'lodash';
 import moment from 'moment';
 import React, {useCallback, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {GiftedChat} from 'react-native-gifted-chat';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from 'redux/reducers';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import ModalInformation from './ModalInformation';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import AppText from 'components/AppText';
 import styles from './styles';
 
 const NUMBER_MESS = 20;
 const NUMBER_EARLY = NUMBER_MESS + 1;
 
 const ChatScreen = () => {
+  const dispatch = useDispatch();
+
   const userReducer = useSelector((state: RootState) => state.userReducer);
 
   const [messages, setMessages] = useState<any[]>([]);
@@ -27,10 +26,12 @@ const ChatScreen = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
+    dispatch({type: '_REQUEST'});
     database()
       .ref('/chat-group')
       .limitToLast(NUMBER_MESS)
       .on('child_added', (snapShot) => {
+        !!userReducer.type && dispatch({type: ''});
         const value = snapShot.toJSON() || {};
         const message = [value];
         setMessages((previousMessages) =>
@@ -63,14 +64,17 @@ const ChatScreen = () => {
       });
   };
 
-  const onSend = useCallback((message: any[] = []) => {
-    message[0].createdAt = moment().toJSON();
-    message[0].user.phone = userReducer.data.phoneNumber;
-    // setMessages((previousMessages) =>
-    //   GiftedChat.append(previousMessages, message),
-    // );
-    database().ref('/chat-group').push(message[0]);
-  }, []);
+  const onSend = useCallback(
+    (message: any[] = []) => {
+      message[0].createdAt = moment().toJSON();
+      message[0].user.phone = userReducer.data.phoneNumber;
+      // setMessages((previousMessages) =>
+      //   GiftedChat.append(previousMessages, message),
+      // );
+      database().ref('/chat-group').push(message[0]);
+    },
+    [userReducer],
+  );
 
   return (
     <>

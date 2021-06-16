@@ -39,14 +39,14 @@ const MainApp = () => {
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
+        <NavigationContainer fallback={() => <Text>...Loading</Text>}>
+          {_.isEmpty(data) ? <UnAuthNavigator /> : <AppNavigator />}
+        </NavigationContainer>
         {isLoading && (
           <View style={styles.container}>
             <AppLoading size={'large'} />
           </View>
         )}
-        <NavigationContainer fallback={() => <Text>...Loading</Text>}>
-          {_.isEmpty(data) ? <UnAuthNavigator /> : <AppNavigator />}
-        </NavigationContainer>
       </SafeAreaView>
     </>
   );

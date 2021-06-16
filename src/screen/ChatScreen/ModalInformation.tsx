@@ -6,6 +6,7 @@ import AppText from 'components/AppText';
 import _ from 'lodash';
 import {HIT_SLOP} from 'helpers/constants';
 import I18n from 'locale';
+import {useNavigation} from '@react-navigation/native';
 
 interface ModalInformationProps {
   data: any;
@@ -16,18 +17,21 @@ const ModalInformation = ({
   data = {},
   onClose = () => {},
 }: ModalInformationProps) => {
-  console.log('data', data);
+  const navigation = useNavigation();
   const {user} = data;
+
   const onPressCallSIM = () => {
     Linking.openURL(`tel:${user?.phone}`);
   };
 
   const onPressAudioCall = () => {
-    Linking.openURL(`tel:${user?.phone}`);
+    navigation.navigate('DialingScreen', {user, isVideo: false});
+    onClose();
   };
 
   const onPressVideoCall = () => {
-    Linking.openURL(`tel:${user?.phone}`);
+    navigation.navigate('DialingScreen', {user, isVideo: true});
+    onClose();
   };
 
   return (

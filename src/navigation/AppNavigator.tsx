@@ -1,8 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {ChatScreen, SlideMenu} from 'screen';
-import CallScreen from 'screen/CallScreen';
+import {
+  ChatScreen,
+  SlideMenu,
+  DialingScreen,
+  ReceiverScreen,
+  CallScreen,
+} from 'screen';
 
 // const Tab = createBottomTabNavigator();
 
@@ -25,8 +30,10 @@ const Stack = createStackNavigator();
 const StackNavigation = () => {
   return (
     <Stack.Navigator headerMode="none">
-      {/* <Stack.Screen name={'CallScreen'} component={CallScreen} /> */}
       <Stack.Screen name={'ChatScreen'} component={ChatScreen} />
+      <Stack.Screen name={'DialingScreen'} component={DialingScreen} />
+      <Stack.Screen name={'ReceiverScreen'} component={ReceiverScreen} />
+      <Stack.Screen name={'CallScreen'} component={CallScreen} />
       {/* <Stack.Screen name={'MyScreen'} component={MyScreen} /> */}
     </Stack.Navigator>
   );
