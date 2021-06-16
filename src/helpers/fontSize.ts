@@ -24,4 +24,6 @@ export default {
   f34: resizeFontsize(34),
   f36: resizeFontsize(36),
   f40: resizeFontsize(40),
+  f44: resizeFontsize(44),
+  f48: resizeFontsize(48),
 };

@@ -40,4 +40,8 @@ export default {
     audioCall: 'Gọi Audio',
     videoCall: 'Gọi Video',
   },
+  call: {
+    calling: 'Đang gọi...',
+    callFrom: 'Cuộc gọi từ',
+  },
 };
