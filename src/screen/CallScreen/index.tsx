@@ -68,7 +68,6 @@ class CallScreen extends Component<Props, State> {
       .ref(`/call/${this.receiver._id}`)
       .on('child_removed', async (snapShot) => {
         const value = snapShot.toJSON();
-        console.log('App -> componentDidMount -> value', value);
         if (value) {
           await this._engine?.leaveChannel();
           navigation.canGoBack() && navigation.goBack();
@@ -175,7 +174,6 @@ class CallScreen extends Component<Props, State> {
 
   render() {
     const {openMicrophone, enableSpeakerphone} = this.state;
-
     return (
       <View style={styles.container}>
         {this.isVideo ? this._renderVideos() : this._renderGuess()}
