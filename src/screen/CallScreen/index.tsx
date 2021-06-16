@@ -1,12 +1,19 @@
+import database from '@react-native-firebase/database';
+import AppText from 'components/AppText';
+import color from 'helpers/color';
+import {HIT_SLOP} from 'helpers/constants';
+import {stringToColour} from 'helpers/function';
 import React, {Component} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
 import RtcEngine, {
   RtcLocalView,
   RtcRemoteView,
   VideoRenderMode,
 } from 'react-native-agora';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {connect} from 'react-redux';
+import {RootState} from 'redux/reducers';
 import styles from './styles';
-import database from '@react-native-firebase/database';
 
 interface Props {}
 
@@ -22,24 +29,35 @@ interface State {
   channelName: string;
   joinSucceed: boolean;
   peerIds: number[];
+  openMicrophone: boolean;
+  enableSpeakerphone: boolean;
 }
 
-export default class App extends Component<Props, State> {
+class CallScreen extends Component<Props, State> {
   _engine?: RtcEngine;
   receiver: any;
   caller: any;
+  guess: any;
+  isVideo: boolean;
   rejectListener: any;
 
   constructor(props: any) {
     super(props);
     this.caller = props.route.params.caller;
     this.receiver = props.route.params.receiver;
+    this.isVideo = props.route.params.isVideo;
+    this.guess =
+      this.caller._id === props.userReducer.data.uid
+        ? this.receiver
+        : this.caller;
     this.state = {
       appId: '5865d3f5fa0542d99e72badfb5fd0874',
       token: '',
       channelName: this.receiver._id,
       joinSucceed: false,
       peerIds: [],
+      openMicrophone: true,
+      enableSpeakerphone: true,
     };
   }
 
@@ -72,7 +90,9 @@ export default class App extends Component<Props, State> {
   init = async () => {
     const {appId} = this.state;
     this._engine = await RtcEngine.create(appId);
-    await this._engine.enableVideo();
+    this.isVideo
+      ? await this._engine.enableVideo()
+      : await this._engine.enableAudio();
 
     this._engine.addListener('Warning', (warn) => {
       console.log('Warning', warn);
@@ -127,16 +147,65 @@ export default class App extends Component<Props, State> {
     database().ref(`/call/${this.receiver._id}`).remove();
   };
 
+  // Turn the microphone on or off.
+  _switchMicrophone = () => {
+    const {openMicrophone} = this.state;
+    this._engine
+      ?.enableLocalAudio(!openMicrophone)
+      .then(() => {
+        this.setState({openMicrophone: !openMicrophone});
+      })
+      .catch((err) => {
+        console.warn('enableLocalAudio', err);
+      });
+  };
+
+  // Switch the audio playback device.
+  _switchSpeakerphone = () => {
+    const {enableSpeakerphone} = this.state;
+    this._engine
+      ?.setEnableSpeakerphone(!enableSpeakerphone)
+      .then(() => {
+        this.setState({enableSpeakerphone: !enableSpeakerphone});
+      })
+      .catch((err) => {
+        console.warn('setEnableSpeakerphone', err);
+      });
+  };
+
   render() {
+    const {openMicrophone, enableSpeakerphone} = this.state;
+
     return (
-      <View style={styles.max}>
-        <View style={styles.max}>
-          <View style={styles.buttonHolder}>
-            <TouchableOpacity onPress={this.endCall} style={styles.button}>
-              <Text style={styles.buttonText}> End Call </Text>
-            </TouchableOpacity>
-          </View>
-          {this._renderVideos()}
+      <View style={styles.container}>
+        {this.isVideo ? this._renderVideos() : this._renderGuess()}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={{...styles.button, backgroundColor: color.fade}}
+            hitSlop={HIT_SLOP}
+            onPress={this._switchMicrophone}>
+            <Icon
+              name={openMicrophone ? 'microphone' : 'microphone-off'}
+              size={30}
+              color={color.white}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            hitSlop={HIT_SLOP}
+            onPress={this.endCall}>
+            <Icon name="phone-hangup-outline" size={30} color={color.white} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{...styles.button, backgroundColor: color.fade}}
+            hitSlop={HIT_SLOP}
+            onPress={this._switchSpeakerphone}>
+            <Icon
+              name={enableSpeakerphone ? 'volume-high' : 'volume-medium'}
+              size={30}
+              color={color.white}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -147,7 +216,7 @@ export default class App extends Component<Props, State> {
     return joinSucceed ? (
       <View style={styles.fullView}>
         <RtcLocalView.SurfaceView
-          style={styles.max}
+          style={{flex: 1}}
           channelId={this.state.channelName}
           renderMode={VideoRenderMode.Hidden}
         />
@@ -178,4 +247,26 @@ export default class App extends Component<Props, State> {
       </ScrollView>
     );
   };
+
+  _renderGuess = () => {
+    return (
+      <View style={styles.content}>
+        <View
+          style={{
+            ...styles.avatar,
+            backgroundColor: stringToColour(this.guess._id),
+          }}>
+          <AppText style={styles.txtChar}>{this.guess.name[0]}</AppText>
+        </View>
+        <AppText style={styles.txtName}>{this.guess.name}</AppText>
+      </View>
+    );
+  };
+}
+
+export default connect(mapStateToProps)(CallScreen);
+
+function mapStateToProps(state: RootState) {
+  const {userReducer} = state;
+  return {userReducer};
 }
