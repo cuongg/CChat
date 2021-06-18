@@ -27,7 +27,7 @@ const ChatScreen = () => {
 
   useEffect(() => {
     dispatch({type: '_REQUEST'});
-    database()
+    const listener = database()
       .ref('/chat-group')
       .limitToLast(NUMBER_MESS)
       .on('child_added', (snapShot) => {
@@ -38,6 +38,7 @@ const ChatScreen = () => {
           _.uniqBy(GiftedChat.append(previousMessages, message), '_id'),
         );
       });
+    return () => database().ref('/chat-group').off('child_added', listener);
   }, []);
 
   const onLoadEarlier = () => {

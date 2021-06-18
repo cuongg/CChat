@@ -36,7 +36,7 @@ export default {
     number: 'Trường này yêu cầu là chữ số',
   },
   chat: {
-    callSIM: 'Gọi điện thoại qua SIM',
+    callSIM: 'Gọi điện thoại vào số',
     audioCall: 'Gọi Audio',
     videoCall: 'Gọi Video',
   },
