@@ -46,7 +46,7 @@ const ModalInformation = ({
             hitSlop={HIT_SLOP}
             onPress={onPressCallSIM}>
             <AppText>
-              {I18n.t('chat.callSIM')} ({user?.phone})
+              {I18n.t('chat.callSIM')} {user?.phone}
             </AppText>
           </TouchableOpacity>
           <TouchableOpacity
