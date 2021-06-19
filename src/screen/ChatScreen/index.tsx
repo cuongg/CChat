@@ -27,10 +27,14 @@ const ChatScreen = () => {
 
   useEffect(() => {
     dispatch({type: '_REQUEST'});
+    const timeout = setTimeout(() => {
+      !!userReducer.type && dispatch({type: ''});
+    }, 5000);
     const listener = database()
       .ref('/chat-group')
       .limitToLast(NUMBER_MESS)
       .on('child_added', (snapShot) => {
+        clearTimeout(timeout);
         !!userReducer.type && dispatch({type: ''});
         const value = snapShot.toJSON() || {};
         const message = [value];
@@ -65,17 +69,11 @@ const ChatScreen = () => {
       });
   };
 
-  const onSend = useCallback(
-    (message: any[] = []) => {
-      message[0].createdAt = moment().toJSON();
-      message[0].user.phone = userReducer.data.phoneNumber;
-      // setMessages((previousMessages) =>
-      //   GiftedChat.append(previousMessages, message),
-      // );
-      database().ref('/chat-group').push(message[0]);
-    },
-    [userReducer],
-  );
+  const onSend = (message: any[] = []) => {
+    message[0].createdAt = moment().toJSON();
+    message[0].user.phone = userReducer.data.phoneNumber;
+    database().ref('/chat-group').push(message[0]);
+  };
 
   return (
     <>
