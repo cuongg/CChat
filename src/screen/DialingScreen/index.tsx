@@ -73,7 +73,9 @@ class DialingScreen extends React.Component {
         } else {
           this.soundBusy.play();
           setTimeout(() => {
-            navigation.goBack();
+            this.setState({switchScreen: true}, () => {
+              navigation.goBack();
+            });
           }, 5000);
         }
       });
